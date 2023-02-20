@@ -567,6 +567,8 @@ root.append(new (0, _appJsDefault.default)().el);
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _hertz = require("./core/hertz");
+var _fruitItem = require("./components/FruitItem");
+var _fruitItemDefault = parcelHelpers.interopDefault(_fruitItem);
 class App extends (0, _hertz.Component) {
     constructor(){
         super({
@@ -593,15 +595,20 @@ class App extends (0, _hertz.Component) {
         console.log(this.state.fruits);
         this.el.innerHTML = /*html*/ `
       <h1>Fruits</h1>
-      <ul>
-        ${this.state.fruits.filter((fruit)=>fruit.price < 3000).map((fruit)=>`<li>${fruit.name}</li>`).join("")}
-      </ul>
+      <ul></ul>
     `;
+        const ulEl = this.el.querySelector("ul");
+        ulEl.append(...this.state.fruits.map((fruit)=>new (0, _fruitItemDefault.default)({
+                props: {
+                    name: fruit.name,
+                    price: fruit.price
+                }
+            }).el));
     }
 }
 exports.default = App;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/hertz":"gdOej"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./core/hertz":"gdOej","./components/FruitItem":"79Im4"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -639,15 +646,39 @@ parcelHelpers.export(exports, "Component", ()=>Component);
 class Component {
     // 컨스트럭터
     constructor(payload = {}){
-        const { tagName ="div" , state ={}  } = payload;
+        const { tagName ="div" , state ={} , props ={}  } = payload;
         this.el = document.createElement(tagName);
         this.state = state;
+        this.props = props;
         this.render();
     }
     // 랜더
     render() {}
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["e11Rl","gLLPy"], "gLLPy", "parcelRequiredc54")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"79Im4":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _hertz = require("../core/hertz");
+class FruitItem extends (0, _hertz.Component) {
+    constructor(payload){
+        super({
+            tagName: "li",
+            props: payload.props
+        });
+    }
+    render() {
+        this.el.innerHTML = /* html */ `
+      <span>${this.props.name}</span>
+      <span>${this.props.price}</span>
+    `;
+        this.el.addEventListener("click", ()=>{
+            console.log(this.props.name, this.props.price);
+        });
+    }
+}
+exports.default = FruitItem;
+
+},{"../core/hertz":"gdOej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["e11Rl","gLLPy"], "gLLPy", "parcelRequiredc54")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map
