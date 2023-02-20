@@ -571,27 +571,32 @@ class App extends (0, _hertz.Component) {
     constructor(){
         super({
             state: {
-                inputText: ""
+                fruits: [
+                    {
+                        name: "Apple",
+                        price: 1000
+                    },
+                    {
+                        name: "Banana",
+                        price: 2000
+                    },
+                    {
+                        name: "Cherry",
+                        price: 3000
+                    }
+                ]
             }
         });
     }
-    // 덮어쓰기
+    // 선언적 렌더링(덮어쓰기)
     render() {
-        this.el.classList.add("search");
-        this.el.innerHTML = /* html */ `
-      <input type='text'>
-      <button>Click!</button>
+        console.log(this.state.fruits);
+        this.el.innerHTML = /*html*/ `
+      <h1>Fruits</h1>
+      <ul>
+        ${this.state.fruits.filter((fruit)=>fruit.price < 3000).map((fruit)=>`<li>${fruit.name}</li>`).join("")}
+      </ul>
     `;
-        // input 요소
-        const inputEl = this.el.querySelector("input");
-        inputEl.addEventListener("input", ()=>{
-            this.state.inputText = inputEl.value;
-        });
-        // button 요소
-        const buttonEl = this.el.querySelector("button");
-        buttonEl.addEventListener("click", ()=>{
-            console.log(this.state.inputText);
-        });
     }
 }
 exports.default = App;
